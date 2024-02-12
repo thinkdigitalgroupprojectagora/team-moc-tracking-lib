@@ -13,5 +13,5 @@ setup(
         'Flask==2.2.3',
         'functions-framework==3.5.0',
         'requests==2.31.0'
-    ],
+    ]
 )
