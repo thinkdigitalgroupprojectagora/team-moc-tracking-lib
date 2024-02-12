@@ -31,8 +31,12 @@ jobs:
         run: |
           # NOTE: put your own distribution build steps here.
           python -m build
-      - name: Build a binary wheel and a source tarball
-        run: python -m build --sdist --wheel --outdir dist/
+
+      - name: upload dists
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-dists
+          path: dist/
 
   pypi-publish:
     runs-on: ubuntu-latest
