@@ -1,5 +1,8 @@
 from setuptools import setup, find_packages
 
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+
 setup(
     name='TrackingLib',
     version='0.1.0',
@@ -7,6 +10,8 @@ setup(
     author='Damianos Damianidis',
     author_email='damianosd@projectagora.com',
     description='A library for tracking transactions in Flask and FastAPI applications.',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     packages=find_packages(),    
     install_requires=[
         'fastapi==0.103.1', 
