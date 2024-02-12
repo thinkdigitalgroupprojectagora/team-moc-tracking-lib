@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name='TrackingLib',
+    name='tracking_lib',
     version='0.1.0',
     url='https://github.com/thinkdigitalgroupprojectagora/team-moc-tracking-lib',
     author='Damianos Damianidis',
