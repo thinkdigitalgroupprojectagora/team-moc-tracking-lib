@@ -1,6 +1,10 @@
+import sys
+sys.path.append("..")
+
 from flask import Flask, jsonify
 import pytest
 from transaction import Transaction
+
 app = Flask(__name__)
 
 def interactor_runc():

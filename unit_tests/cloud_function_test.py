@@ -1,3 +1,14 @@
+
+import os, sys
+# Get the current directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Get the parent directory
+parent_dir = os.path.dirname(current_dir)
+
+# Add the parent directory to PATH
+sys.path.append(parent_dir)
+
 import time
 import requests
 import subprocess
@@ -18,7 +29,7 @@ def hello_world(request):
 @pytest.fixture(scope='module')
 def server():
     # Start the server
-    server = subprocess.Popen(['functions-framework', '--target=hello_world', '--source=unit_tests/cloud_function_test.py', '--port=8080'])
+    server = subprocess.Popen(['functions-framework', '--target=hello_world', '--source=unit_tests/cloud_function_test.py', '--port=9000'])
     time.sleep(1)  # Wait for the server to start
     yield server
     # Teardown : Stop the server
@@ -26,7 +37,7 @@ def server():
 
 def test_server(server):
     # Send a request to the server
-    response = requests.get('http://localhost:8080')
+    response = requests.get('http://localhost:9000')
     print(response.json())
     # Check that the server responded with status code 200
     assert response.status_code == 200
