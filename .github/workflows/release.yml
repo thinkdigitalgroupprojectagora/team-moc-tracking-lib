@@ -52,7 +52,7 @@ jobs:
           pip install setuptools wheel twine
         
       - name: Run tests with pytest
-        run: pytest
+        run: export PYTHONPATH="${PYTHONPATH}:tracking_lib" && pytest 
 
       - name: Build package
         run: python setup.py sdist bdist_wheel
