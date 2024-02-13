@@ -13,7 +13,7 @@ import time
 import requests
 import subprocess
 import pytest
-from src.transaction import Transaction
+from transaction import Transaction
 
 def interactor_runc():
     #print(f"transaction_id in interactor func: {Transaction.read_transaction_id()}")
@@ -29,7 +29,7 @@ def hello_world(request):
 @pytest.fixture(scope='module')
 def server():
     # Start the server
-    server = subprocess.Popen(['functions-framework', '--target=hello_world', '--source=unit_tests/cloud_function_test.py', '--port=5000'])
+    server = subprocess.Popen(['functions-framework', '--target=hello_world', f'--source={current_dir}/cloud_function_test.py', '--port=9000'])
     time.sleep(1)  # Wait for the server to start
     yield server
     # Teardown : Stop the server
@@ -37,7 +37,7 @@ def server():
 
 def test_server(server):
     # Send a request to the server
-    response = requests.get('http://0.0.0.0:5000')
+    response = requests.get('http://0.0.0.0:9000')
     print(response.json())
     # Check that the server responded with status code 200
     assert response.status_code == 200

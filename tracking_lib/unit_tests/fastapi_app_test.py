@@ -1,10 +1,17 @@
-import sys
-sys.path.append("..")
+import os, sys
+# Get the current directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Get the parent directory
+parent_dir = os.path.dirname(current_dir)
+
+# Add the parent directory to PATH
+sys.path.append(parent_dir)
 
 from fastapi import FastAPI, Request
 from fastapi.testclient import TestClient
 import pytest
-from src.transaction import Transaction
+from transaction import Transaction
 
 app = FastAPI()
 
