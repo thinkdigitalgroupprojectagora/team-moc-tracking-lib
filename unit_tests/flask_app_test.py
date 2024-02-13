@@ -3,7 +3,7 @@ sys.path.append("..")
 
 from flask import Flask, jsonify
 import pytest
-from transaction import Transaction
+from src.transaction import Transaction
 
 app = Flask(__name__)
 

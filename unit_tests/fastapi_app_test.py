@@ -4,7 +4,7 @@ sys.path.append("..")
 from fastapi import FastAPI, Request
 from fastapi.testclient import TestClient
 import pytest
-from transaction import Transaction
+from src.transaction import Transaction
 
 app = FastAPI()
 
