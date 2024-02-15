@@ -1,6 +1,8 @@
 import inspect
 from fastapi import FastAPI, Request
 from flask import Flask, g
+from adapters.pubsub import PubSubAdapter
+from models.transaction_status_update import TransactionStatusUpdate
 
 class Transaction:
 
@@ -66,3 +68,14 @@ class Transaction:
         else:
             print("No app found")
             return g.transaction_id
+
+    @classmethod
+    def set_transaction_status(cls, src_event_name, status='SUCCESS', error_message=None):
+        transaction_status_update = TransactionStatusUpdate(
+            transaction_id=cls.read_transaction_id(),src_event_name=src_event_name
+        )
+        if status == 'FAILURE':
+           transaction_status_update.set_status_failure(error_message)        
+        
+        PubSubAdapter().publish_to_control_channel(transaction_status_update.to_dict(), 
+                                                   "TRANSACTION_STATUS_UPDATE")    

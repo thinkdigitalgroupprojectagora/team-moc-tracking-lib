@@ -29,15 +29,15 @@ def hello_world(request):
 @pytest.fixture(scope='module')
 def server():
     # Start the server
-    server = subprocess.Popen(['functions-framework', '--target=hello_world', f'--source={current_dir}/cloud_function_test.py', '--port=9000'])
-    time.sleep(1)  # Wait for the server to start
+    server = subprocess.Popen(['functions-framework', '--target=hello_world', f'--source={current_dir}/cloud_function_test.py', '--port=8000'])
+    time.sleep(5)  # Wait for the server to start
     yield server
     # Teardown : Stop the server
     server.terminate()
 
 def test_server(server):
     # Send a request to the server
-    response = requests.get('http://0.0.0.0:9000')
+    response = requests.get('http://0.0.0.0:8000')
     print(response.json())
     # Check that the server responded with status code 200
     assert response.status_code == 200
