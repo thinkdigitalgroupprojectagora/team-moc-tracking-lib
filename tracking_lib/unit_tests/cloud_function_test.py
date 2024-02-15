@@ -13,7 +13,7 @@ import time
 import requests
 import subprocess
 import pytest
-from transaction import Transaction
+from tracking_lib.transaction import Transaction
 
 def interactor_runc():
     #print(f"transaction_id in interactor func: {Transaction.read_transaction_id()}")

@@ -10,9 +10,9 @@ sys.path.append(parent_dir)
 from unittest.mock import patch, MagicMock
 from flask import Flask, jsonify
 import pytest
-from transaction import Transaction
-from models.transaction_status_update import TransactionStatusUpdate
-from adapters.pubsub import PubSubAdapter
+from tracking_lib.transaction import Transaction
+from tracking_lib.models.transaction_status_update import TransactionStatusUpdate
+from tracking_lib.adapters.pubsub import PubSubAdapter
 
 app = Flask(__name__)
 

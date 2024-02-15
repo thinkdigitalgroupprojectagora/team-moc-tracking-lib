@@ -1,8 +1,8 @@
 import inspect
 from fastapi import FastAPI, Request
 from flask import Flask, g
-from adapters.pubsub import PubSubAdapter
-from models.transaction_status_update import TransactionStatusUpdate
+from .adapters.pubsub import PubSubAdapter
+from .models.transaction_status_update import TransactionStatusUpdate
 
 class Transaction:
 

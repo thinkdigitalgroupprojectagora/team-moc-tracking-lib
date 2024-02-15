@@ -1,4 +1,3 @@
-import os, json
 import time
 
 class TransactionStatusUpdate():

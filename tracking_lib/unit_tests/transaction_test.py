@@ -10,9 +10,9 @@ parent_dir = os.path.dirname(current_dir)
 # Add the parent directory to PATH
 sys.path.append(parent_dir)
 
-from transaction import Transaction
-from models.transaction_status_update import TransactionStatusUpdate
-from adapters.pubsub import PubSubAdapter
+from tracking_lib.transaction import Transaction
+from tracking_lib.models.transaction_status_update import TransactionStatusUpdate
+from tracking_lib.adapters.pubsub import PubSubAdapter
 
 # Unit test
 def test_set_transaction_status_success():
