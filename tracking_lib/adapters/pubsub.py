@@ -9,7 +9,10 @@ class PubSubAdapter():
     
 
     def __init__(self):
-        self.publisher = pubsub_v1.PublisherClient()
+        if self.project_id and self.topic_id:
+            self.publisher = pubsub_v1.PublisherClient()
+        else:
+            self.publisher = None    
 
     def get_topic_path(self, project_id: str, topic_id: str):
         return self.publisher.topic_path(project=project_id, topic=topic_id)
