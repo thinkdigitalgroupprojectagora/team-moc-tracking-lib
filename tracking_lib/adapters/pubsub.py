@@ -9,7 +9,7 @@ class PubSubAdapter():
     
 
     def __init__(self):
-        if self.project_id and self.topic_id:
+        if PubSubAdapter.project_id and PubSubAdapter.topic_id:
             self.publisher = pubsub_v1.PublisherClient()
         else:
             self.publisher = None    
@@ -19,7 +19,7 @@ class PubSubAdapter():
 
     def publish_to_control_channel(self, message, event_type):
 
-        if not self.project_id or not self.topic_id:
+        if not PubSubAdapter.project_id or not PubSubAdapter.topic_id:
             print(f"control message: {message}, event_type:{event_type}", flush=True)
             return
 
