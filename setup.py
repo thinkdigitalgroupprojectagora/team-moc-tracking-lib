@@ -22,6 +22,6 @@ setup(
         'Werkzeug==2.2.3',
         'pytest==7.4.2',
         'pytest-mock==3.11.1',
-        'pytest-postgresql==5.0.0'
+        'google-cloud-pubsub==2.18.4'
     ]
 )
