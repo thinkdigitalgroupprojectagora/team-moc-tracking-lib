@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='tracking_lib',
-    version='0.1.10',
+    version='0.1.11',
     url='https://github.com/thinkdigitalgroupprojectagora/team-moc-tracking-lib',
     author='Damianos Damianidis',
     author_email='damianosd@projectagora.com',

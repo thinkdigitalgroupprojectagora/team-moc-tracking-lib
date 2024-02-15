@@ -18,7 +18,9 @@ class PubSubAdapter():
         return self.publisher.topic_path(project=project_id, topic=topic_id)
 
     def publish_to_control_channel(self, message, event_type):
-
+        pr_id = PubSubAdapter.project_id
+        tp_id = PubSubAdapter.topic_id
+        print(f"project_id-lib: {pr_id}, topic_id-lib: {tp_id}")
         if not PubSubAdapter.project_id or not PubSubAdapter.topic_id:
             print(f"control message: {message}, event_type:{event_type}", flush=True)
             return
