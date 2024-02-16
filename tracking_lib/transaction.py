@@ -1,10 +1,15 @@
 import inspect
 from fastapi import FastAPI, Request
 from flask import Flask, g
+from .config import Config
 from .adapters.pubsub import PubSubAdapter
 from .models.transaction_status_update import TransactionStatusUpdate
 
 class Transaction:
+
+    @classmethod
+    def init(cls, config: Config):
+        cls.config = config
 
     @classmethod
     def find_object_of_type(cls, obj_type):
@@ -77,5 +82,6 @@ class Transaction:
         if status == 'FAILURE':
            transaction_status_update.set_status_failure(error_message)        
         
-        PubSubAdapter().publish_to_control_channel(transaction_status_update.to_dict(), 
+        PubSubAdapter(cls.config.control_channel_project_id, cls.config.control_channel_topic_id).\
+                        publish_to_control_channel(transaction_status_update.to_dict(), 
                                                    "TRANSACTION_STATUS_UPDATE")    

@@ -11,6 +11,7 @@ from unittest.mock import patch, MagicMock
 from flask import Flask, jsonify
 import pytest
 from tracking_lib.transaction import Transaction
+from tracking_lib.config import Config
 from tracking_lib.models.transaction_status_update import TransactionStatusUpdate
 from tracking_lib.adapters.pubsub import PubSubAdapter
 
@@ -22,6 +23,7 @@ def interactor_runc():
 
 @app.route('/success')
 def hello_world_success():
+    Transaction.init(Config())
     Transaction.set_transaction_id("123456")
     tr_id = interactor_runc()
     Transaction.set_transaction_status(src_event_name = "AN_SRC_EVENT_NAME")
@@ -29,6 +31,7 @@ def hello_world_success():
 
 @app.route('/failure')
 def hello_world_failure():
+    Transaction.init(Config())
     Transaction.set_transaction_id("123456")
     tr_id = interactor_runc()
     Transaction.set_transaction_status(src_event_name = "AN_SRC_EVENT_NAME", 
