@@ -1,6 +1,5 @@
 import json
 from google.cloud import pubsub_v1
-from ..config import Config
 
 class PubSubAdapter():
 

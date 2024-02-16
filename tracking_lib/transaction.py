@@ -77,7 +77,8 @@ class Transaction:
     @classmethod
     def set_transaction_status(cls, src_event_name, status='SUCCESS', error_message=None):
         transaction_status_update = TransactionStatusUpdate(
-            transaction_id=cls.read_transaction_id(),src_event_name=src_event_name
+            transaction_id=cls.read_transaction_id(),src_event_name=src_event_name,
+            downstream_service=cls.config.downstream_service
         )
         if status == 'FAILURE':
            transaction_status_update.set_status_failure(error_message)        
