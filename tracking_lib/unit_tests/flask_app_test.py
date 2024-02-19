@@ -38,6 +38,14 @@ def hello_world_failure():
                                        status="FAILURE", error_message="some_error_message")
     return jsonify(message=tr_id)
 
+@app.route('/no_transaction_id')
+def hello_world_no_transaction_id():
+    Transaction.init(Config())
+    tr_id = interactor_runc()
+    Transaction.set_transaction_status(src_event_name = "AN_SRC_EVENT_NAME", 
+                                       status="FAILURE", error_message="some_error_message")
+    return jsonify(message=tr_id)
+
 # Test client fixture
 @pytest.fixture
 def client():
@@ -76,3 +84,19 @@ def test_hello_world_success(client):
         mock_method.assert_called_once_with('a_dict', 'TRANSACTION_STATUS_UPDATE')
         assert response.status_code == 200
         assert data['message'] == "123456"
+
+def test_hello_world_no_transaction_id(client):
+    with patch.object(TransactionStatusUpdate, 'set_status_failure', new=MagicMock()) as mock_method:
+        response = client.get('/no_transaction_id')
+        data = response.get_json()
+        mock_method.assert_not_called()
+        assert response.status_code == 200
+        assert data['message'] == None
+    
+    TransactionStatusUpdate.to_dict = MagicMock(return_value='a_dict')    
+    with patch.object(PubSubAdapter, 'publish_to_control_channel', new=MagicMock()) as mock_method:
+        response = client.get('/no_transaction_id')
+        data = response.get_json()
+        mock_method.assert_not_called()
+        assert response.status_code == 200
+        assert data['message'] == None

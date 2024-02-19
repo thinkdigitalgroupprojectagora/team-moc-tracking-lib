@@ -39,3 +39,15 @@ def test_set_transaction_status_failure():
     with patch.object(PubSubAdapter, 'publish_to_control_channel', new=MagicMock()) as mock_method:
         Transaction.set_transaction_status(src_event_name="AN_SRC_EVENT_NAME", status="FAILURE", error_message="some_error_message")
         mock_method.assert_called_once_with('a_dict', 'TRANSACTION_STATUS_UPDATE')    
+
+def test_set_transaction_status_no_transaction_id():
+    Transaction.init(Config())
+    Transaction.read_transaction_id = MagicMock(return_value=None)
+    with patch.object(TransactionStatusUpdate, 'set_status_failure', new=MagicMock()) as mock_method:
+        Transaction.set_transaction_status(src_event_name="AN_SRC_EVENT_NAME", status="FAILURE", error_message="some_error_message")
+        mock_method.assert_not_called()
+
+    TransactionStatusUpdate.to_dict = MagicMock(return_value='a_dict')    
+    with patch.object(PubSubAdapter, 'publish_to_control_channel', new=MagicMock()) as mock_method:
+        Transaction.set_transaction_status(src_event_name="AN_SRC_EVENT_NAME", status="FAILURE", error_message="some_error_message")
+        mock_method.assert_not_called()

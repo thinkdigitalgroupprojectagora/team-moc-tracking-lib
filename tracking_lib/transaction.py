@@ -63,11 +63,18 @@ class Transaction:
     @classmethod
     def read_transaction_id(cls):
         if cls.find_flask_app():
-            return g.transaction_id
+            #not a property of g
+            if hasattr(g, 'transaction_id'):
+                return g.transaction_id
+            else:
+                return None            
         elif cls.find_fastapi_app():
             req_obj = cls.find_fast_api_request_object()
             if req_obj:
-                return req_obj.state.transaction_id
+                if hasattr(req_obj.state, 'transaction_id'):
+                    return req_obj.state.transaction_id
+                else:
+                    return None    
             else:
                 return None
         else:
@@ -76,8 +83,12 @@ class Transaction:
 
     @classmethod
     def set_transaction_status(cls, src_event_name, status='SUCCESS', error_message=None):
+        transaction_id = cls.read_transaction_id()
+        if not transaction_id:
+            print("Transaction ID not found")
+            return
         transaction_status_update = TransactionStatusUpdate(
-            transaction_id=cls.read_transaction_id(),src_event_name=src_event_name,
+            transaction_id=transaction_id,src_event_name=src_event_name,
             downstream_service=cls.config.downstream_service
         )
         if status == 'FAILURE':
