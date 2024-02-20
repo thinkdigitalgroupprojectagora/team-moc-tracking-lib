@@ -1,9 +1,12 @@
 import inspect
+
 from fastapi import FastAPI, Request
 from flask import Flask, g
-from .config import Config
+
 from .adapters.pubsub import PubSubAdapter
+from .config import Config
 from .models.transaction_status_update import TransactionStatusUpdate
+
 
 class Transaction:
 
@@ -25,15 +28,15 @@ class Transaction:
     @classmethod
     def find_flask_app(cls):
         return cls.find_object_of_type(Flask)
-    
+
     @classmethod
     def find_fastapi_app(cls):
         return cls.find_object_of_type(FastAPI)
-        
+
     @classmethod
     def find_fast_api_request_object(cls):
         return cls.find_object_of_type(Request)
-    
+
     @classmethod
     def set_flask_transaction_id(cls, transaction_id):
         g.transaction_id = transaction_id
@@ -57,24 +60,24 @@ class Transaction:
         else:
             print("NO APP", flush=True)
             cls.set_fastapi_transaction_id(transaction_id)
-            #cls.set_flask_transaction_id(transaction_id)
+            # cls.set_flask_transaction_id(transaction_id)
             print("No app found")
 
     @classmethod
     def read_transaction_id(cls):
         if cls.find_flask_app():
-            #not a property of g
-            if hasattr(g, 'transaction_id'):
+            # not a property of g
+            if hasattr(g, "transaction_id"):
                 return g.transaction_id
             else:
-                return None            
+                return None
         elif cls.find_fastapi_app():
             req_obj = cls.find_fast_api_request_object()
             if req_obj:
-                if hasattr(req_obj.state, 'transaction_id'):
+                if hasattr(req_obj.state, "transaction_id"):
                     return req_obj.state.transaction_id
                 else:
-                    return None    
+                    return None
             else:
                 return None
         else:
@@ -82,18 +85,23 @@ class Transaction:
             return g.transaction_id
 
     @classmethod
-    def set_transaction_status(cls, src_event_name, status='SUCCESS', error_message=None):
+    def set_transaction_status(
+        cls, src_event_name, status="SUCCESS", error_message=None
+    ):
         transaction_id = cls.read_transaction_id()
         if not transaction_id:
             print("Transaction ID not found")
             return
         transaction_status_update = TransactionStatusUpdate(
-            transaction_id=transaction_id,src_event_name=src_event_name,
-            downstream_service=cls.config.downstream_service
+            transaction_id=transaction_id,
+            src_event_name=src_event_name,
+            downstream_service=cls.config.downstream_service,
         )
-        if status == 'FAILURE':
-           transaction_status_update.set_status_failure(error_message)        
-        
-        PubSubAdapter(cls.config.control_channel_project_id, cls.config.control_channel_topic_id).\
-                        publish_to_control_channel(transaction_status_update.to_dict(), 
-                                                   "TRANSACTION_STATUS_UPDATE")    
+        if status == "FAILURE":
+            transaction_status_update.set_status_failure(error_message)
+
+        PubSubAdapter(
+            cls.config.control_channel_project_id, cls.config.control_channel_topic_id
+        ).publish_to_control_channel(
+            transaction_status_update.to_dict(), "TRANSACTION_STATUS_UPDATE"
+        )
