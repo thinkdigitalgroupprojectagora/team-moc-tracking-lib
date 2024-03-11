@@ -13,6 +13,7 @@ class Transaction:
     @classmethod
     def init(cls, config: Config):
         cls.config = config
+        cls.dummy_transaction_id = None
 
     @classmethod
     def find_object_of_type(cls, obj_type):
@@ -38,6 +39,11 @@ class Transaction:
         return cls.find_object_of_type(Request)
 
     @classmethod
+    def set_dummy_transaction_id(cls, transaction_id):
+        print("Dummy transaction id set to", transaction_id)
+        cls.dummy_transaction_id = transaction_id
+
+    @classmethod
     def set_flask_transaction_id(cls, transaction_id):
         g.transaction_id = transaction_id
 
@@ -59,7 +65,7 @@ class Transaction:
             cls.set_fastapi_transaction_id(transaction_id)
         else:
             print("NO APP", flush=True)
-            cls.set_fastapi_transaction_id(transaction_id)
+            cls.set_dummy_transaction_id(transaction_id)
             # cls.set_flask_transaction_id(transaction_id)
             print("No app found")
 
@@ -82,7 +88,7 @@ class Transaction:
                 return None
         else:
             print("No app found")
-            return g.transaction_id
+            return cls.dummy_transaction_id
 
     @classmethod
     def set_transaction_status(
