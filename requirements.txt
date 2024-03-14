@@ -1,7 +1,6 @@
 fastapi==0.103.1
 fastapi-migrate==0.1.1
-Werkzeug==2.2.2
-Flask==2.2.3
+Flask==2.3.3
 functions-framework==3.0.0
 requests==2.31.0
 google-cloud-pubsub==2.18.4
