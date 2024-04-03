@@ -15,7 +15,8 @@ setup(
     packages=find_packages(),
     install_requires=[
         "fastapi>=0.103.1",
-        "Flask>=2.2.2",
+        "Flask>=2.0.0",
+        "Werkzeug>=2.2,<3.0",
         "google-cloud-pubsub>=2.18.4",
     ],
 )
