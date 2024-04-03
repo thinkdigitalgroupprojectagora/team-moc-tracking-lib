@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="tracking_lib",
-    version="0.1.25",
+    version="0.1.26",
     url="https://github.com/thinkdigitalgroupprojectagora/team-moc-tracking-lib",
     author="Damianos Damianidis",
     author_email="damianosd@projectagora.com",
@@ -15,7 +15,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         "fastapi>=0.103.1",
-        "Flask==2.3.3",
+        "Flask>=1.1.4",
         "google-cloud-pubsub>=2.18.4",
     ],
 )
