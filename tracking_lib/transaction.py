@@ -88,7 +88,9 @@ class Transaction:
                 return None
         else:
             print("No app found")
-            return cls.dummy_transaction_id
+            # read attribute fro cls else None
+
+            return getattr(cls, 'dummy_transaction_id', None)
 
     @classmethod
     def set_transaction_status(
